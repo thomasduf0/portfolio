@@ -230,11 +230,14 @@
           </div>
         </div>
 
-        <!-- Les messages sont envoyés par FormSubmit sur la boîte mail de Thomas -->
-        <form class="contact-form" action="https://formsubmit.co/ajax/thomas.dufau20@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="Nouveau message depuis thomasdufau.fr">
-          <input type="hidden" name="_template" value="table">
-          <input type="text" name="_honey" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <!-- Les messages sont envoyés par Web3Forms sur la boîte mail de Thomas -->
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <!-- Clé d'accès Web3Forms (reçue par email, elle peut être publique) -->
+          <input type="hidden" name="access_key" value="CLE_WEB3FORMS">
+          <input type="hidden" name="subject" value="Nouveau message depuis thomasdufau.fr">
+          <input type="hidden" name="from_name" value="Portfolio thomasdufau.fr">
+          <!-- Piège à robots : un humain ne coche jamais cette case invisible -->
+          <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="field">
             <label for="nom">Nom</label>
             <input id="nom" name="nom" type="text" autocomplete="name" required>

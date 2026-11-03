@@ -35,7 +35,7 @@ if (bulles && !reduireAnimations) {
   }, { passive: true });
 }
 
-// ===== Formulaire de contact (envoi par email via FormSubmit, sans quitter la page) =====
+// ===== Formulaire de contact (envoi par email via Web3Forms, sans quitter la page) =====
 const form = document.querySelector('.contact-form');
 const statut = form.querySelector('.form-status');
 
@@ -51,13 +51,13 @@ form.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     });
     const resultat = await reponse.json().catch(() => ({}));
-    if (reponse.ok && String(resultat.success) === 'true') {
+    if (reponse.ok && resultat.success === true) {
       form.reset();
       statut.classList.add('ok');
       statut.textContent = 'Message envoyé. Je vous réponds sous 48 heures.';
     } else {
-      // FormSubmit explique le problème dans "message" (ex. : formulaire pas encore activé)
-      console.warn('FormSubmit :', reponse.status, resultat);
+      // Web3Forms explique le problème dans "message"
+      console.warn('Web3Forms :', reponse.status, resultat);
       statut.classList.add('erreur');
       statut.textContent = "Le message n'est pas parti. Réessayez, ou contactez-moi sur LinkedIn."
         + (resultat.message ? ' (Détail : ' + resultat.message + ')' : '');
