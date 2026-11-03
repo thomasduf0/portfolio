@@ -47,8 +47,8 @@ form.addEventListener('submit', async (e) => {
   try {
     const reponse = await fetch(form.action, {
       method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     });
     const resultat = await reponse.json().catch(() => ({}));
     if (reponse.ok && String(resultat.success) === 'true') {
