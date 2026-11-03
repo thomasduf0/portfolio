@@ -286,6 +286,7 @@ img { max-width: 100%; display: block; }
 
 .about-text { max-width: 38rem; }
 .about-text h2 { margin-bottom: 0.75em; }
+.about-text strong { font-weight: 650; }
 
 /* Compétences */
 .skills {

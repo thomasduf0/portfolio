@@ -35,7 +35,7 @@ if (bulles && !reduireAnimations) {
   }, { passive: true });
 }
 
-// ===== Formulaire de contact (envoi via Formspree, sans quitter la page) =====
+// ===== Formulaire de contact (envoi par email via FormSubmit, sans quitter la page) =====
 const form = document.querySelector('.contact-form');
 const statut = form.querySelector('.form-status');
 
@@ -50,7 +50,8 @@ form.addEventListener('submit', async (e) => {
       body: new FormData(form),
       headers: { Accept: 'application/json' },
     });
-    if (!reponse.ok) throw new Error();
+    const resultat = await reponse.json();
+    if (!reponse.ok || String(resultat.success) !== 'true') throw new Error();
     form.reset();
     statut.classList.add('ok');
     statut.textContent = 'Message envoyé. Je vous réponds sous 48 heures.';
