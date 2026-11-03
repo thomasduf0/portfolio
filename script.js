@@ -50,13 +50,21 @@ form.addEventListener('submit', async (e) => {
       body: new FormData(form),
       headers: { Accept: 'application/json' },
     });
-    const resultat = await reponse.json();
-    if (!reponse.ok || String(resultat.success) !== 'true') throw new Error();
-    form.reset();
-    statut.classList.add('ok');
-    statut.textContent = 'Message envoyé. Je vous réponds sous 48 heures.';
-  } catch {
+    const resultat = await reponse.json().catch(() => ({}));
+    if (reponse.ok && String(resultat.success) === 'true') {
+      form.reset();
+      statut.classList.add('ok');
+      statut.textContent = 'Message envoyé. Je vous réponds sous 48 heures.';
+    } else {
+      // FormSubmit explique le problème dans "message" (ex. : formulaire pas encore activé)
+      console.warn('FormSubmit :', reponse.status, resultat);
+      statut.classList.add('erreur');
+      statut.textContent = "Le message n'est pas parti. Réessayez, ou contactez-moi sur LinkedIn."
+        + (resultat.message ? ' (Détail : ' + resultat.message + ')' : '');
+    }
+  } catch (erreur) {
+    console.warn('Envoi impossible :', erreur);
     statut.classList.add('erreur');
-    statut.textContent = "Le message n'est pas parti. Réessayez, ou contactez-moi sur LinkedIn.";
+    statut.textContent = "Le message n'est pas parti. Vérifiez votre connexion, ou contactez-moi sur LinkedIn.";
   }
 });
