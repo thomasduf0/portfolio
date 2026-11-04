@@ -175,11 +175,6 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 
-.hero-intro {
-  font-weight: 500;
-  color: var(--encre-douce);
-}
-
 .hero h1 {
   font-size: clamp(2.6rem, 6vw, 4.5rem);
   font-weight: 800;
@@ -270,18 +265,22 @@ img { max-width: 100%; display: block; }
 }
 
 .about-photo {
+  /* Même animation que les bulles de l'accueil : flottement + rotation au scroll */
+  --angle: -2deg;
+  --decalage: 0rem;
   aspect-ratio: 1;
   padding: 18px;
   background: var(--soleil);
   border-radius: 40px 40px 40px 8px; /* forme de bulle, comme dans l'accueil */
-  transform: rotate(-2deg);
+  rotate: calc(var(--angle) + var(--scroll-rotation, 0deg));
+  animation: float 5s ease-in-out infinite alternate;
 }
 .about-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  transform: rotate(2deg);
+  rotate: 2deg;
 }
 
 .about-text { max-width: 38rem; }
@@ -531,5 +530,5 @@ img { max-width: 100%; display: block; }
 /* Respect des préférences « réduire les animations » */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .bubble { animation: none; rotate: var(--angle); }
+  .bubble, .about-photo { animation: none; rotate: var(--angle); }
 }

@@ -16,23 +16,38 @@ menu.querySelectorAll('a').forEach((lien) => {
   });
 });
 
-// ===== Bulles de l'accueil : rotation au scroll =====
-// Plus on descend, plus les bulles tournent (0,04 degré par pixel scrollé).
+// ===== Rotation au scroll : bulles de l'accueil et photo =====
 // Désactivé si la personne a demandé à réduire les animations sur son appareil.
 const bulles = document.querySelector('.bubbles');
+const photo = document.querySelector('.about-photo');
 const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-if (bulles && !reduireAnimations) {
+function tournerAuScroll() {
+  // Bulles : plus on descend, plus elles tournent (0,04 degré par pixel scrollé)
+  if (bulles) {
+    const angle = Math.min(window.scrollY, 1200) * 0.04;
+    bulles.style.setProperty('--scroll-rotation', angle + 'deg');
+  }
+  // Photo : elle tourne pendant qu'elle traverse l'écran et revient droite au centre
+  if (photo) {
+    const zone = photo.getBoundingClientRect();
+    const ecart = zone.top + zone.height / 2 - window.innerHeight / 2;
+    const angle = Math.max(-15, Math.min(15, ecart * -0.03));
+    photo.style.setProperty('--scroll-rotation', angle + 'deg');
+  }
+}
+
+if (!reduireAnimations) {
   let enAttente = false;
   window.addEventListener('scroll', () => {
     if (enAttente) return;
     enAttente = true;
     requestAnimationFrame(() => {
-      const angle = Math.min(window.scrollY, 1200) * 0.04;
-      bulles.style.setProperty('--scroll-rotation', angle + 'deg');
+      tournerAuScroll();
       enAttente = false;
     });
   }, { passive: true });
+  tournerAuScroll();
 }
 
 // ===== Formulaire de contact (envoi par email via Web3Forms, sans quitter la page) =====
