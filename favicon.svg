@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path d="M18 4h28a14 14 0 0 1 14 14v28a14 14 0 0 1-14 14H9a5 5 0 0 1-5-5V18A14 14 0 0 1 18 4z" fill="#5B4BFF"/>
+  <text x="32" y="42" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="27" fill="#fff" letter-spacing="-1">TD</text>
+</svg>

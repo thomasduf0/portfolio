@@ -1,0 +1,5 @@
+# Tous les moteurs de recherche peuvent explorer le site
+User-agent: *
+Allow: /
+
+Sitemap: https://thomasdufau.fr/sitemap.xml
