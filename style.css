@@ -330,6 +330,74 @@ img { max-width: 100%; display: block; }
   font-size: 0.9375rem;
 }
 
+/* Réalisations : cartes projet */
+.projects { display: grid; gap: 2rem; }
+
+.project {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--trait);
+  border-radius: 28px 28px 28px 6px; /* forme de bulle */
+  padding: 2.5rem;
+}
+
+.project-kicker {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--violet);
+  margin-bottom: 0.5rem;
+}
+
+.project h3 {
+  font-size: clamp(1.5rem, 2.6vw, 1.875rem);
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.75rem;
+}
+
+.project-text > p:not(.project-kicker) { color: var(--encre-douce); }
+.project-text strong { color: var(--encre); font-weight: 650; }
+.project .tags { list-style: none; margin: 1.5rem 0 0; padding: 0; }
+
+.project-steps {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--encre-douce);
+}
+.project-steps li { margin-bottom: 0.3rem; }
+.project-steps li::marker { color: var(--violet); }
+
+.project-figures {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.figure {
+  padding: 1.2rem 1.4rem 1.3rem;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: 22px 22px 22px 6px;
+}
+.figure strong {
+  display: block;
+  font-family: var(--police-titre);
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.3rem;
+}
+.figure-violet { background: var(--violet); color: #fff; rotate: -1.5deg; }
+.figure-teal   { background: var(--turquoise); color: var(--encre); rotate: 1.5deg; border-radius: 22px 22px 6px 22px; }
+
+.projects-more { margin-top: 2rem; color: var(--encre-douce); text-align: center; }
+
 /* Réalisations (en attente) */
 .empty-state {
   border: 2px dashed var(--trait);
@@ -471,6 +539,8 @@ img { max-width: 100%; display: block; }
   .about-photo { width: 200px; padding: 14px; }
   .skills { grid-template-columns: 1fr 1fr; }
   .timeline-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .project { grid-template-columns: 1fr; gap: 2rem; }
+  .project-figures { grid-template-columns: 1fr 1fr; }
   .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
 }
 
@@ -520,11 +590,13 @@ img { max-width: 100%; display: block; }
   .section { padding: 4.5rem 0; }
   .skills { grid-template-columns: 1fr; gap: 2.25rem; }
   .contact-form { padding: 1.5rem; }
+  .project { padding: 1.75rem 1.5rem; }
   .footer-inner { flex-direction: column; gap: 0.5rem; }
 }
 
 @media (max-width: 420px) {
   .bubble { padding: 1.1rem 1rem 1.2rem; font-size: 0.9375rem; }
+  .project-figures { grid-template-columns: 1fr; }
 }
 
 /* Respect des préférences « réduire les animations » */
