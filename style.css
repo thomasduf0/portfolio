@@ -3,7 +3,7 @@
    ========================================= */
 :root {
   --fond: #FFFBF5;
-  --fond-teinte: #F3F0FF;
+  --fond-teinte: #F6EFE3;
   --encre: #1E1B2E;
   --encre-douce: #514D66;
   --violet: #5B4BFF;
@@ -11,7 +11,10 @@
   --corail: #FF6B5B;
   --soleil: #FFC93C;
   --turquoise: #2EC4B6;
-  --trait: #E4E0F2;
+  --trait: #E8DFD0;
+  --trait-champ: #857D93; /* bord des champs : contraste 3:1 minimum */
+  --erreur: #B42318;
+  --succes: #0F766E;
 
   --police-titre: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
   --police-texte: "Inter", system-ui, -apple-system, sans-serif;
@@ -41,6 +44,7 @@ h1, h2, h3, h4 {
   font-family: var(--police-titre);
   line-height: 1.1;
   margin: 0 0 0.5em;
+  text-wrap: balance; /* évite un mot tout seul en fin de titre */
 }
 
 h2 {
@@ -50,7 +54,7 @@ h2 {
   margin-bottom: 1.25em;
 }
 
-p { margin: 0 0 1em; }
+p { margin: 0 0 1em; text-wrap: pretty; }
 
 a { color: var(--violet); }
 
@@ -103,9 +107,11 @@ img { max-width: 100%; display: block; }
   border: 2px solid var(--violet);
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
 }
 .btn:hover { background: var(--violet-fonce); border-color: var(--violet-fonce); }
+.btn:active { transform: scale(0.97); }
+.btn[disabled] { opacity: 0.7; cursor: progress; transform: none; }
 
 .btn-ghost { background: transparent; color: var(--violet); }
 .btn-ghost:hover { background: var(--violet); color: #fff; }
@@ -158,8 +164,13 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9375rem;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 2px;
+  transition: color 0.2s;
 }
 .nav a:not(.btn):hover { color: var(--violet); }
+/* Rubrique en cours de lecture (mise à jour par script.js) */
+.nav a[aria-current="true"] { color: var(--violet); text-decoration: underline; }
 
 .nav-toggle { display: none; }
 
@@ -175,13 +186,34 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 
-.hero h1 {
-  font-size: clamp(2.6rem, 6vw, 4.5rem);
+.hero-title { margin-bottom: 1.5rem; }
+
+.hero-name {
+  display: block;
+  font-size: clamp(2.75rem, 6.5vw, 5rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.02;
-  margin-bottom: 1.5rem;
-  max-width: 14ch;
+  line-height: 1;
+}
+
+.hero-role {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: clamp(1.375rem, 2.6vw, 1.875rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--violet);
+}
+
+.hero-promise {
+  font-family: var(--police-titre);
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  max-width: 30ch;
+  text-wrap: balance;
+  margin-bottom: 1rem;
 }
 
 .hero-sub {
@@ -203,9 +235,8 @@ img { max-width: 100%; display: block; }
   gap: 1.1rem;
 }
 
-/* Chaque bulle a 3 mouvements indépendants :
+/* Chaque bulle a 2 mouvements indépendants :
    - scale : l'apparition au chargement (pop)
-   - translate : le flottement léger quand la page est immobile (float)
    - rotate : l'angle de base + la rotation pilotée par le scroll (script.js) */
 .bubble {
   --angle: 0deg;    /* inclinaison de départ */
@@ -219,9 +250,7 @@ img { max-width: 100%; display: block; }
   border-radius: 26px 26px 26px 6px;
   translate: 0 var(--decalage);
   rotate: calc(var(--angle) + var(--scroll-rotation, 0deg) * var(--sens));
-  animation:
-    pop 0.55s cubic-bezier(.2, 1.4, .4, 1) both,
-    float 5s ease-in-out infinite alternate;
+  animation: pop 0.55s cubic-bezier(.2, 1.4, .4, 1) both;
 }
 
 .bubble strong {
@@ -234,21 +263,16 @@ img { max-width: 100%; display: block; }
   margin-bottom: 0.35rem;
 }
 
-/* Le 2e délai concerne le flottement : décalé pour que les bulles ne bougent pas en même temps */
-.bubble-violet { background: var(--violet); color: #fff; --angle: -3deg; animation-delay: 0.15s, 0s; }
-.bubble-sun    { background: var(--soleil); color: var(--encre); --angle: 2deg; --decalage: 1.75rem; --sens: -1; border-radius: 26px 26px 6px 26px; animation-delay: 0.3s, -1.8s; }
-.bubble-coral  { background: var(--corail); color: var(--encre); --angle: 2.5deg; --sens: -1; animation-delay: 0.45s, -3.1s; }
-.bubble-teal   { background: var(--turquoise); color: var(--encre); --angle: -2deg; --decalage: 1.75rem; border-radius: 26px 26px 6px 26px; animation-delay: 0.6s, -4.2s; }
+.bubble-violet { background: var(--violet); color: #fff; --angle: -3deg; animation-delay: 0.15s; }
+.bubble-sun    { background: var(--soleil); color: var(--encre); --angle: 2deg; --decalage: 1.75rem; --sens: -1; border-radius: 26px 26px 6px 26px; animation-delay: 0.3s; }
+.bubble-coral  { background: var(--corail); color: var(--encre); --angle: 2.5deg; --sens: -1; animation-delay: 0.45s; }
+.bubble-teal   { background: var(--turquoise); color: var(--encre); --angle: -2deg; --decalage: 1.75rem; border-radius: 26px 26px 6px 26px; animation-delay: 0.6s; }
 
 @keyframes pop {
   from { opacity: 0; scale: 0.6; }
   to   { opacity: 1; scale: 1; }
 }
 
-@keyframes float {
-  from { translate: 0 var(--decalage); }
-  to   { translate: 0 calc(var(--decalage) - 10px); }
-}
 
 /* =========================================
    6. Sections
@@ -265,15 +289,13 @@ img { max-width: 100%; display: block; }
 }
 
 .about-photo {
-  /* Même animation que les bulles de l'accueil : flottement + rotation au scroll */
+  /* Même mouvement que les bulles de l'accueil : rotation au scroll */
   --angle: -2deg;
-  --decalage: 0rem;
   aspect-ratio: 1;
   padding: 18px;
   background: var(--soleil);
   border-radius: 40px 40px 40px 8px; /* forme de bulle, comme dans l'accueil */
   rotate: calc(var(--angle) + var(--scroll-rotation, 0deg));
-  animation: float 5s ease-in-out infinite alternate;
 }
 .about-photo img {
   width: 100%;
@@ -398,17 +420,6 @@ img { max-width: 100%; display: block; }
 
 .projects-more { margin-top: 2rem; color: var(--encre-douce); text-align: center; }
 
-/* Réalisations (en attente) */
-.empty-state {
-  border: 2px dashed var(--trait);
-  border-radius: 28px 28px 28px 6px;
-  padding: 3rem 2rem;
-  text-align: center;
-}
-.empty-state p { color: var(--encre-douce); margin-bottom: 0.4rem; }
-.empty-state p:first-child { font-family: var(--police-titre); font-size: 1.5rem; font-weight: 700; color: var(--encre); }
-.empty-state .btn { margin-top: 1.25rem; }
-
 /* Parcours */
 .timeline-grid {
   display: grid;
@@ -496,16 +507,21 @@ img { max-width: 100%; display: block; }
   font: inherit;
   color: var(--encre);
   background: var(--fond);
-  border: 2px solid var(--trait);
+  border: 2px solid var(--trait-champ);
   border-radius: 10px;
   padding: 0.7rem 0.85rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .field input:focus,
-.field textarea:focus { outline: none; border-color: var(--violet); }
+.field textarea:focus { outline: none; border-color: var(--violet); box-shadow: 0 0 0 3px rgba(91, 75, 255, 0.25); }
+.field [aria-invalid="true"] { border-color: var(--erreur); }
+.field-error { margin: 0.35rem 0 0; font-size: 0.9375rem; font-weight: 600; color: var(--erreur); }
+.field-error:empty { display: none; }
 
 .form-status { margin: 1rem 0 0; font-weight: 600; }
-.form-status.ok { color: #13897E; }
-.form-status.erreur { color: #D23B2B; }
+.form-status:empty { display: none; }
+.form-status.ok { color: var(--succes); }
+.form-status.erreur { color: var(--erreur); }
 
 /* Pied de page */
 .site-footer { background: var(--encre); color: #A9A4C2; border-top: 1px solid #34304A; }
@@ -603,4 +619,5 @@ img { max-width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bubble, .about-photo { animation: none; rotate: var(--angle); }
+  .btn:active { transform: none; }
 }
